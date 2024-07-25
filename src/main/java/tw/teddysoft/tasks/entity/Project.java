@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.Data;
 import lombok.Getter;
+import tw.teddysoft.ezddd.core.entity.Entity;
 
 @Data
-public class Project {
+public class Project implements Entity<ProjectName> {
 
   private ProjectName name;
 
@@ -22,4 +23,8 @@ public class Project {
     tasks.addAll(tasks);
   }
 
+  @Override
+  public ProjectName getId() {
+    return name;
+  }
 }

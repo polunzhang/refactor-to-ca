@@ -9,15 +9,17 @@ import java.util.List;
 import tw.teddysoft.tasks.entity.Project;
 import tw.teddysoft.tasks.entity.ProjectName;
 import tw.teddysoft.tasks.entity.Task;
+import tw.teddysoft.tasks.entity.TaskId;
 import tw.teddysoft.tasks.entity.TodoList;
+import tw.teddysoft.tasks.entity.TodoListId;
 
 public final class TaskList implements Runnable {
     private static final String QUIT = "quit";
 
     private final BufferedReader in;
     private final PrintWriter out;
-    private final TodoList tasks = new TodoList();
-
+    public static final String DEFAULT_TO_DO_LIST_ID = "001";
+    private final TodoList tasks = new TodoList(new TodoListId(DEFAULT_TO_DO_LIST_ID));
     private long lastId = 0;
 
     public static void main(String[] args) throws Exception {
@@ -77,7 +79,7 @@ public final class TaskList implements Runnable {
         for (Project project : tasks.entrySet()) {
             out.println(project.getName());
             for (Task task : project.getTasks()) {
-                out.printf("    [%c] %d: %s%n", (task.isDone() ? 'x' : ' '), task.getId(), task.getDescription());
+                out.printf("    [%c] %s: %s%n", (task.isDone() ? 'x' : ' '), task.getId(), task.getDescription());
             }
             out.println();
         }
@@ -105,7 +107,7 @@ public final class TaskList implements Runnable {
             out.println();
             return;
         }
-        projectTasks.add(new Task(nextId(), description, false));
+        projectTasks.add(new Task(TaskId.of(nextId()), description, false));
     }
 
     private void check(String idString) {
@@ -117,16 +119,16 @@ public final class TaskList implements Runnable {
     }
 
     private void setDone(String idString, boolean done) {
-        int id = Integer.parseInt(idString);
+        var id = TaskId.of(Integer.parseInt(idString));
         for (Project project : tasks.entrySet()) {
             for (Task task : project.getTasks()) {
-                if (task.getId() == id) {
+                if (task.getId().equals(id)) {
                     task.setDone(done);
                     return;
                 }
             }
         }
-        out.printf("Could not find a task with an ID of %d.", id);
+        out.printf("Could not find a task with an ID of %s.", id);
         out.println();
     }
 

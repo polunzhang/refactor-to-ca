@@ -1,29 +1,33 @@
 package tw.teddysoft.tasks.entity;
 
-public final class Task {
-    private final long id;
-    private final String description;
-    private boolean done;
+import tw.teddysoft.ezddd.core.entity.Entity;
 
-    public Task(long id, String description, boolean done) {
-        this.id = id;
-        this.description = description;
-        this.done = done;
-    }
+public final class Task implements Entity<TaskId> {
 
-    public long getId() {
-        return id;
-    }
+  private final String description;
+  private final TaskId taskId;
+  private boolean done;
 
-    public String getDescription() {
-        return description;
-    }
+  public Task(TaskId id, String description, boolean done) {
+    this.taskId = id;
+    this.description = description;
+    this.done = done;
+  }
 
-    public boolean isDone() {
-        return done;
-    }
+  public String getDescription() {
+    return description;
+  }
 
-    public void setDone(boolean done) {
-        this.done = done;
-    }
+  public boolean isDone() {
+    return done;
+  }
+
+  public void setDone(boolean done) {
+    this.done = done;
+  }
+
+  @Override
+  public TaskId getId() {
+    return taskId;
+  }
 }
