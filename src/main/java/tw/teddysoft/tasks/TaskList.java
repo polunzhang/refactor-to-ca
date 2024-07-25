@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import tw.teddysoft.tasks.entity.Task;
 
 public final class TaskList implements Runnable {
     private static final String QUIT = "quit";
