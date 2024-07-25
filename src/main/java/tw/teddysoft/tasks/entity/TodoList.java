@@ -1,16 +1,13 @@
 package tw.teddysoft.tasks.entity;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-public class Tasks {
+public class TodoList {
 
   private final List<Project> projects;
 
-  public Tasks() {
+  public TodoList() {
     this.projects = new ArrayList<>();
   }
 
