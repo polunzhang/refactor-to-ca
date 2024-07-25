@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 import tw.teddysoft.tasks.entity.Project;
 import tw.teddysoft.tasks.entity.ProjectName;
@@ -19,8 +18,7 @@ public final class TaskList implements Runnable {
     private final BufferedReader in;
     private final PrintWriter out;
     public static final String DEFAULT_TO_DO_LIST_ID = "001";
-    private final TodoList tasks = new TodoList(new TodoListId(DEFAULT_TO_DO_LIST_ID));
-    private long lastId = 0;
+    private final TodoList todoList = new TodoList(new TodoListId(DEFAULT_TO_DO_LIST_ID));
 
     public static void main(String[] args) throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -76,7 +74,7 @@ public final class TaskList implements Runnable {
     }
 
     private void show() {
-        for (Project project : tasks.entrySet()) {
+        for (Project project : todoList.getProjects()) {
             out.println(project.getName());
             for (Task task : project.getTasks()) {
                 out.printf("    [%c] %s: %s%n", (task.isDone() ? 'x' : ' '), task.getId(), task.getDescription());
@@ -97,17 +95,17 @@ public final class TaskList implements Runnable {
     }
 
     private void addProject(ProjectName name) {
-        tasks.put(name, new ArrayList<Task>());
+        todoList.addProject(name);
     }
 
     private void addTask(ProjectName project, String description) {
-        List<Task> projectTasks = tasks.get(project);
+        List<Task> projectTasks = todoList.getTasks(project);
         if (projectTasks == null) {
             out.printf("Could not find a project with the name \"%s\".", project);
             out.println();
             return;
         }
-        projectTasks.add(new Task(TaskId.of(nextId()), description, false));
+        todoList.addTask(project, description,false);
     }
 
     private void check(String idString) {
@@ -120,10 +118,10 @@ public final class TaskList implements Runnable {
 
     private void setDone(String idString, boolean done) {
         var id = TaskId.of(Integer.parseInt(idString));
-        for (Project project : tasks.entrySet()) {
+        for (Project project : todoList.getProjects()) {
             for (Task task : project.getTasks()) {
                 if (task.getId().equals(id)) {
-                    task.setDone(done);
+                    todoList.setDone(id, done);
                     return;
                 }
             }
@@ -147,7 +145,4 @@ public final class TaskList implements Runnable {
         out.println();
     }
 
-    private long nextId() {
-        return ++lastId;
-    }
 }
