@@ -9,21 +9,21 @@ import tw.teddysoft.tasks.entity.Task;
 
 public class Tasks {
 
-  private final Map<String, List<Task>> tasks;
+  private final Map<ProjectName, List<Task>> tasks;
 
   public Tasks() {
     this.tasks = new LinkedHashMap<>();
   }
 
-  public void put(String name, List<Task> tasks) {
+  public void put(ProjectName name, List<Task> tasks) {
     this.tasks.put(name, tasks);
   }
 
-  public List<Task> get(String name) {
+  public List<Task> get(ProjectName name) {
     return tasks.get(name);
   }
 
-  public Set<Map.Entry<String, List<Task>>> entrySet() {
+  public Set<Map.Entry<ProjectName, List<Task>>> entrySet() {
     return tasks.entrySet();
   }
 }
