@@ -2,15 +2,19 @@ package tw.teddysoft.tasks.usecase;
 
 import java.io.PrintWriter;
 import tw.teddysoft.tasks.entity.TodoList;
+import tw.teddysoft.tasks.usecase.out.ToDoListRepository;
 
 public class Execute {
 
   private final TodoList todoList;
   private final PrintWriter out;
 
-  public Execute(TodoList todoList, PrintWriter out) {
+  private final ToDoListRepository repository;
+
+  public Execute(TodoList todoList, PrintWriter out, ToDoListRepository repository) {
     this.todoList = todoList;
     this.out = out;
+    this.repository = repository;
   }
 
   public void execute(String commandLine) {

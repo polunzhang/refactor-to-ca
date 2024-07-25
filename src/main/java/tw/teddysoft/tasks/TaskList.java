@@ -4,14 +4,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import tw.teddysoft.tasks.adapter.repository.ToDoListInMemoryRepository;
 import tw.teddysoft.tasks.entity.TodoList;
 import tw.teddysoft.tasks.entity.TodoListId;
-import tw.teddysoft.tasks.usecase.Add;
-import tw.teddysoft.tasks.usecase.Error;
 import tw.teddysoft.tasks.usecase.Execute;
-import tw.teddysoft.tasks.usecase.Help;
-import tw.teddysoft.tasks.usecase.SetDone;
-import tw.teddysoft.tasks.usecase.Show;
+import tw.teddysoft.tasks.usecase.out.ToDoListRepository;
 
 public final class TaskList implements Runnable {
     private static final String QUIT = "quit";
@@ -20,6 +17,7 @@ public final class TaskList implements Runnable {
     private final PrintWriter out;
     public static final String DEFAULT_TO_DO_LIST_ID = "001";
     private final TodoList todoList = new TodoList(new TodoListId(DEFAULT_TO_DO_LIST_ID));
+    private final ToDoListRepository toDoListRepository;
 
     public static void main(String[] args) throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -30,6 +28,10 @@ public final class TaskList implements Runnable {
     public TaskList(BufferedReader reader, PrintWriter writer) {
         this.in = reader;
         this.out = writer;
+        toDoListRepository = new ToDoListInMemoryRepository();
+        if (toDoListRepository.findById(TodoListId.of(DEFAULT_TO_DO_LIST_ID)).isEmpty()) {
+            toDoListRepository.save(todoList);
+        }
     }
 
     public void run() {
@@ -45,7 +47,7 @@ public final class TaskList implements Runnable {
             if (command.equals(QUIT)) {
                 break;
             }
-          new Execute(todoList, out).execute(command);
+          new Execute(todoList, out, toDoListRepository).execute(command);
         }
     }
 
