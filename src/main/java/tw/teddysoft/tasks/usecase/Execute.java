@@ -21,7 +21,7 @@ public class Execute {
         new Show(todoList, out).show();
         break;
       case "add":
-        new Add(todoList, out).add(commandRest[1]);
+        new Add(todoList, out, repository).add(commandRest[1]);
         break;
       case "check":
         check(commandRest[1]);
