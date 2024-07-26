@@ -1,4 +1,4 @@
-package tw.teddysoft.tasks.usecase;
+package tw.teddysoft.tasks.usecase.service;
 
 import static java.lang.String.format;
 
@@ -7,7 +7,7 @@ import tw.teddysoft.ezddd.cqrs.usecase.CqrsOutput;
 import tw.teddysoft.tasks.usecase.port.in.todoList.error.ErrorInput;
 import tw.teddysoft.tasks.usecase.port.in.todoList.error.ErrorUseCase;
 
-public class Error implements ErrorUseCase {
+public class ErrorService implements ErrorUseCase {
 
   @Override
   public CqrsOutput execute(ErrorInput input) throws UseCaseFailureException {

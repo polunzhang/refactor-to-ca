@@ -15,16 +15,16 @@ import tw.teddysoft.tasks.usecase.port.in.task.set_down.SetDownUseCase;
 import tw.teddysoft.tasks.usecase.port.in.todoList.error.ErrorInput;
 import tw.teddysoft.tasks.usecase.port.in.todoList.error.ErrorUseCase;
 import tw.teddysoft.tasks.usecase.port.in.todoList.help.HelpInput;
-import tw.teddysoft.tasks.usecase.port.in.todoList.help.HelpOutput;
 import tw.teddysoft.tasks.usecase.port.in.todoList.help.HelpUseCase;
 import tw.teddysoft.tasks.usecase.port.in.todoList.show.ShowInput;
 import tw.teddysoft.tasks.usecase.port.in.todoList.show.ShowOutput;
 import tw.teddysoft.tasks.usecase.port.in.todoList.show.ShowUseCase;
-import tw.teddysoft.tasks.usecase.port.out.HelpPresenter;
 import tw.teddysoft.tasks.usecase.port.out.ShowPresenter;
 import tw.teddysoft.tasks.usecase.port.out.ToDoListRepository;
 import tw.teddysoft.tasks.usecase.service.AddProjectService;
 import tw.teddysoft.tasks.usecase.service.AddTaskService;
+import tw.teddysoft.tasks.usecase.service.ErrorService;
+import tw.teddysoft.tasks.usecase.service.HelpService;
 import tw.teddysoft.tasks.usecase.service.SetDoneService;
 import tw.teddysoft.tasks.usecase.service.ShowService;
 
@@ -70,7 +70,7 @@ public class Execute {
       default:
         ErrorInput errorInput = new ErrorInput();
         errorInput.command = command;
-        ErrorUseCase errorUseCase = new Error();
+        ErrorUseCase errorUseCase = new ErrorService();
         errorUseCase.execute(errorInput);
         out.print(errorUseCase.execute(errorInput).getMessage());
         break;

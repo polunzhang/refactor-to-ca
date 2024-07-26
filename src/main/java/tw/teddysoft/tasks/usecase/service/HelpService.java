@@ -1,4 +1,4 @@
-package tw.teddysoft.tasks.usecase;
+package tw.teddysoft.tasks.usecase.service;
 
 import tw.teddysoft.ezddd.core.usecase.UseCaseFailureException;
 import tw.teddysoft.tasks.usecase.port.in.todoList.help.HelpDto;
