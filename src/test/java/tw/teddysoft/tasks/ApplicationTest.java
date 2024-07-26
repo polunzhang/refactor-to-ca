@@ -11,7 +11,18 @@ import java.io.InputStreamReader;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.io.PrintWriter;
+import tw.teddysoft.tasks.adapter.presenter.HelpConsolePresenter;
+import tw.teddysoft.tasks.adapter.presenter.ShowConsolePresenter;
+import tw.teddysoft.tasks.adapter.repository.ToDoListInMemoryRepository;
+import tw.teddysoft.tasks.entity.TodoList;
+import tw.teddysoft.tasks.entity.TodoListId;
 import tw.teddysoft.tasks.io.TodoListApp;
+import tw.teddysoft.tasks.usecase.service.AddProjectService;
+import tw.teddysoft.tasks.usecase.service.AddTaskService;
+import tw.teddysoft.tasks.usecase.service.ErrorService;
+import tw.teddysoft.tasks.usecase.service.HelpService;
+import tw.teddysoft.tasks.usecase.service.SetDoneService;
+import tw.teddysoft.tasks.usecase.service.ShowService;
 
 import static java.lang.System.lineSeparator;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -30,7 +41,22 @@ public final class ApplicationTest {
     public ApplicationTest() throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(new PipedInputStream(inStream)));
         PrintWriter out = new PrintWriter(new PipedOutputStream(outStream), true);
-        TodoListApp todoListApp = new TodoListApp(in, out);
+        var toDoListRepository = new ToDoListInMemoryRepository();
+        if (toDoListRepository.findById(TodoListId.of(TodoListApp.DEFAULT_TO_DO_LIST_ID)).isEmpty()) {
+            toDoListRepository.save(new TodoList(new TodoListId(TodoListApp.DEFAULT_TO_DO_LIST_ID)));
+        }
+
+        var showUseCase = new ShowService(toDoListRepository);
+        var showPresenter = new ShowConsolePresenter(out);
+        var addProjectUseCase = new AddProjectService(toDoListRepository);
+        var addTaskUseCase = new AddTaskService(toDoListRepository);
+        var setDoneUseCase = new SetDoneService(toDoListRepository);
+        var helpUseCase = new HelpService(new HelpConsolePresenter(out));
+        var errorUseCase = new ErrorService();
+
+
+        TodoListApp todoListApp = new TodoListApp(in, out, showUseCase, showPresenter,
+            addProjectUseCase, addTaskUseCase, setDoneUseCase, helpUseCase, errorUseCase);
         applicationThread = new Thread(todoListApp);
     }
 

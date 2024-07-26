@@ -17,7 +17,6 @@ import tw.teddysoft.tasks.usecase.port.in.todoList.error.ErrorUseCase;
 import tw.teddysoft.tasks.usecase.port.in.todoList.help.HelpUseCase;
 import tw.teddysoft.tasks.usecase.port.in.todoList.show.ShowUseCase;
 import tw.teddysoft.tasks.usecase.port.out.ShowPresenter;
-import tw.teddysoft.tasks.usecase.port.out.ToDoListRepository;
 import tw.teddysoft.tasks.usecase.service.AddProjectService;
 import tw.teddysoft.tasks.usecase.service.AddTaskService;
 import tw.teddysoft.tasks.usecase.service.ErrorService;
@@ -31,9 +30,6 @@ public final class TodoListApp implements Runnable {
     private final BufferedReader in;
     private final PrintWriter out;
     public static final String DEFAULT_TO_DO_LIST_ID = "001";
-    private final TodoList todoList = new TodoList(new TodoListId(DEFAULT_TO_DO_LIST_ID));
-    private final ToDoListRepository toDoListRepository;
-
     private final ShowUseCase showUseCase;
     private final ShowPresenter showPresenter;
     private final AddProjectUseCase addProjectUseCase;
@@ -44,23 +40,37 @@ public final class TodoListApp implements Runnable {
     public static void main(String[] args) throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         PrintWriter out = new PrintWriter(System.out);
-        new TodoListApp(in, out).run();
+        var toDoListRepository = new ToDoListInMemoryRepository();
+        if (toDoListRepository.findById(TodoListId.of(DEFAULT_TO_DO_LIST_ID)).isEmpty()) {
+            toDoListRepository.save(new TodoList(new TodoListId(DEFAULT_TO_DO_LIST_ID)));
+        }
+
+        var showUseCase = new ShowService(toDoListRepository);
+        var showPresenter = new ShowConsolePresenter(out);
+        var addProjectUseCase = new AddProjectService(toDoListRepository);
+        var addTaskUseCase = new AddTaskService(toDoListRepository);
+        var setDoneUseCase = new SetDoneService(toDoListRepository);
+        var helpUseCase = new HelpService(new HelpConsolePresenter(out));
+        var errorUseCase = new ErrorService();
+
+        new TodoListApp(in, out, showUseCase, showPresenter, addProjectUseCase, addTaskUseCase,
+            setDoneUseCase, helpUseCase, errorUseCase).run();
+
     }
 
-    public TodoListApp(BufferedReader reader, PrintWriter writer) {
+    public TodoListApp(BufferedReader reader, PrintWriter writer, ShowUseCase showUseCase,
+        ShowPresenter showPresenter, AddProjectUseCase addProjectUseCase,
+        AddTaskUseCase addTaskUseCase, SetDownUseCase setDoneUseCase, HelpUseCase helpUseCase,
+        ErrorUseCase errorUseCase) {
         this.in = reader;
         this.out = writer;
-        toDoListRepository = new ToDoListInMemoryRepository();
-        if (toDoListRepository.findById(TodoListId.of(DEFAULT_TO_DO_LIST_ID)).isEmpty()) {
-            toDoListRepository.save(todoList);
-        }
-        this.showUseCase = new ShowService(toDoListRepository);
-        this.showPresenter = new ShowConsolePresenter(out);
-        this.addProjectUseCase = new AddProjectService(toDoListRepository);
-        this.addTaskUseCase = new AddTaskService(todoList, out, toDoListRepository);
-        this.setDoneUseCase = new SetDoneService(todoList, out, toDoListRepository);
-        this.helpUseCase = new HelpService(new HelpConsolePresenter(out));
-        this.errorUseCase = new ErrorService();
+        this.showUseCase = showUseCase;
+        this.showPresenter = showPresenter;
+        this.addProjectUseCase = addProjectUseCase;
+        this.addTaskUseCase = addTaskUseCase;
+        this.setDoneUseCase = setDoneUseCase;
+        this.helpUseCase = helpUseCase;
+        this.errorUseCase = errorUseCase;
     }
 
     public void run() {

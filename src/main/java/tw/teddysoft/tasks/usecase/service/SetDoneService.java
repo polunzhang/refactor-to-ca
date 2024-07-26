@@ -12,14 +12,10 @@ import tw.teddysoft.tasks.usecase.port.out.ToDoListRepository;
 
 public class SetDoneService implements SetDownUseCase {
 
-  private final TodoList todoList;
-  private final PrintWriter out;
 
   private final ToDoListRepository repository;
 
-  public SetDoneService(TodoList todoList, PrintWriter out, ToDoListRepository repository) {
-    this.todoList = todoList;
-    this.out = out;
+  public SetDoneService(ToDoListRepository repository) {
     this.repository = repository;
   }
 
@@ -35,7 +31,7 @@ public class SetDoneService implements SetDownUseCase {
       return CqrsOutput.create().fail().setMessage(sb.toString());
     }
 
-    todoList.setDone(TaskId.of(input.taskId),input.isDone);
+    todoList.setDone(TaskId.of(input.taskId), input.isDone);
     repository.save(todoList);
 
     return CqrsOutput.create().succeed().setId(todoList.getId().value());

@@ -13,13 +13,9 @@ import tw.teddysoft.tasks.usecase.port.out.ToDoListRepository;
 public class AddTaskService implements AddTaskUseCase {
 
 
-  private final TodoList todoList;
-  private final PrintWriter out;
   private final ToDoListRepository repository;
 
-  public AddTaskService(TodoList todoList, PrintWriter out, ToDoListRepository repository) {
-    this.todoList = todoList;
-    this.out = out;
+  public AddTaskService(ToDoListRepository repository) {
     this.repository = repository;
   }
 
