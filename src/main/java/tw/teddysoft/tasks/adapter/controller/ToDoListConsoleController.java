@@ -23,7 +23,6 @@ import tw.teddysoft.tasks.usecase.port.out.ToDoListRepository;
 public class ToDoListConsoleController {
 
   private final PrintWriter out;
-
   private final ShowUseCase showUseCase;
   private final ShowPresenter showPresenter;
   private final AddProjectUseCase addProjectUseCase;
