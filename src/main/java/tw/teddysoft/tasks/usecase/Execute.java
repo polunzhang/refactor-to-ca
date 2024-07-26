@@ -3,12 +3,13 @@ package tw.teddysoft.tasks.usecase;
 import java.io.PrintWriter;
 import tw.teddysoft.ezddd.cqrs.usecase.CqrsOutput;
 import tw.teddysoft.tasks.TaskList;
-import tw.teddysoft.tasks.entity.ProjectName;
 import tw.teddysoft.tasks.entity.TodoList;
 import tw.teddysoft.tasks.usecase.in.project.add.AddProjectInput;
 import tw.teddysoft.tasks.usecase.in.project.add.AddProjectUseCase;
 import tw.teddysoft.tasks.usecase.in.task.add.AddTaskInput;
 import tw.teddysoft.tasks.usecase.in.task.add.AddTaskUseCase;
+import tw.teddysoft.tasks.usecase.in.task.set_down.SetDownInput;
+import tw.teddysoft.tasks.usecase.in.task.set_down.SetDownUseCase;
 import tw.teddysoft.tasks.usecase.out.ToDoListRepository;
 
 public class Execute {
@@ -35,10 +36,10 @@ public class Execute {
         add(commandRest[1]);
         break;
       case "check":
-        check(commandRest[1]);
+        setDone(commandRest[1], true);
         break;
       case "uncheck":
-        uncheck(commandRest[1]);
+        setDone(commandRest[1], false);
         break;
       case "help":
         new Help(out).help();
@@ -73,13 +74,15 @@ public class Execute {
     }
   }
 
-
-  private void check(String idString) {
-    new SetDone(todoList, out).setDone(idString, true);
+  public void setDone(String idString, boolean done) {
+    SetDownInput input = new SetDownInput();
+    input.isDone = done;
+    input.taskId = idString;
+    input.todoListId = TaskList.DEFAULT_TO_DO_LIST_ID;
+    SetDownUseCase setDownUseCase = new SetDoneService(todoList, out, repository);
+    CqrsOutput execute = setDownUseCase.execute(input);
+    out.printf(execute.getMessage());
   }
 
-  private void uncheck(String idString) {
-    new SetDone(todoList, out).setDone(idString, false);
-  }
 
 }

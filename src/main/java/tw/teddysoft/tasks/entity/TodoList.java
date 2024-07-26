@@ -48,6 +48,10 @@ public class TodoList extends AggregateRoot<TodoListId, DomainEvent> {
         .orElse(null);
   }
 
+  public boolean containsTask(TaskId taskId){
+    return this.projects.stream().anyMatch(e -> e.containsTask(taskId));
+  }
+
   public void setDone(TaskId taskId, boolean done) {
     this.projects.stream().filter(e -> e.containsTask(taskId)).findFirst()
         .ifPresent(e -> e.setTaskDone(taskId, done));
