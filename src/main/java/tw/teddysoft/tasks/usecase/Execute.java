@@ -3,6 +3,7 @@ package tw.teddysoft.tasks.usecase;
 import java.io.PrintWriter;
 import tw.teddysoft.ezddd.cqrs.usecase.CqrsOutput;
 import tw.teddysoft.tasks.TaskList;
+import tw.teddysoft.tasks.adapter.presenter.ShowConsolePresenter;
 import tw.teddysoft.tasks.entity.TodoList;
 import tw.teddysoft.tasks.usecase.in.project.add.AddProjectInput;
 import tw.teddysoft.tasks.usecase.in.project.add.AddProjectUseCase;
@@ -10,6 +11,10 @@ import tw.teddysoft.tasks.usecase.in.task.add.AddTaskInput;
 import tw.teddysoft.tasks.usecase.in.task.add.AddTaskUseCase;
 import tw.teddysoft.tasks.usecase.in.task.set_down.SetDownInput;
 import tw.teddysoft.tasks.usecase.in.task.set_down.SetDownUseCase;
+import tw.teddysoft.tasks.usecase.in.todoList.show.ShowInput;
+import tw.teddysoft.tasks.usecase.in.todoList.show.ShowOutput;
+import tw.teddysoft.tasks.usecase.in.todoList.show.ShowUseCase;
+import tw.teddysoft.tasks.usecase.out.ShowPresenter;
 import tw.teddysoft.tasks.usecase.out.ToDoListRepository;
 
 public class Execute {
@@ -30,7 +35,12 @@ public class Execute {
     String command = commandRest[0];
     switch (command) {
       case "show":
-        new Show(todoList, out).show();
+        ShowUseCase showUseCase = new ShowService(repository);
+        ShowInput showInput = new ShowInput();
+        showInput.toDoListId = TaskList.DEFAULT_TO_DO_LIST_ID;
+        ShowOutput output = showUseCase.execute(showInput);
+        ShowPresenter presenter = new ShowConsolePresenter(out);
+        presenter.present(output.todoListDto);
         break;
       case "add":
         add(commandRest[1]);
