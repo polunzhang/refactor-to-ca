@@ -12,6 +12,8 @@ import tw.teddysoft.tasks.usecase.port.in.task.add.AddTaskInput;
 import tw.teddysoft.tasks.usecase.port.in.task.add.AddTaskUseCase;
 import tw.teddysoft.tasks.usecase.port.in.task.set_down.SetDownInput;
 import tw.teddysoft.tasks.usecase.port.in.task.set_down.SetDownUseCase;
+import tw.teddysoft.tasks.usecase.port.in.todoList.error.ErrorInput;
+import tw.teddysoft.tasks.usecase.port.in.todoList.error.ErrorUseCase;
 import tw.teddysoft.tasks.usecase.port.in.todoList.help.HelpInput;
 import tw.teddysoft.tasks.usecase.port.in.todoList.help.HelpOutput;
 import tw.teddysoft.tasks.usecase.port.in.todoList.help.HelpUseCase;
@@ -66,7 +68,11 @@ public class Execute {
         helpUseCase.execute(input);
         break;
       default:
-        new Error(out).error(command);
+        ErrorInput errorInput = new ErrorInput();
+        errorInput.command = command;
+        ErrorUseCase errorUseCase = new Error();
+        errorUseCase.execute(errorInput);
+        out.print(errorUseCase.execute(errorInput).getMessage());
         break;
     }
   }

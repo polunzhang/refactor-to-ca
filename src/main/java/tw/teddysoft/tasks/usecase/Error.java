@@ -1,19 +1,19 @@
 package tw.teddysoft.tasks.usecase;
 
-import java.io.PrintWriter;
+import static java.lang.String.format;
 
-public class Error {
+import tw.teddysoft.ezddd.core.usecase.UseCaseFailureException;
+import tw.teddysoft.ezddd.cqrs.usecase.CqrsOutput;
+import tw.teddysoft.tasks.usecase.port.in.todoList.error.ErrorInput;
+import tw.teddysoft.tasks.usecase.port.in.todoList.error.ErrorUseCase;
 
-  private final PrintWriter out;
+public class Error implements ErrorUseCase {
 
-  public Error(PrintWriter out) {
-    this.out = out;
+  @Override
+  public CqrsOutput execute(ErrorInput input) throws UseCaseFailureException {
+    StringBuilder sb = new StringBuilder();
+    sb.append(format("I don't know what the command \"%s\" is.", input.command));
+    sb.append("\r\n");
+    return CqrsOutput.create().fail().setMessage(sb.toString());
   }
-
-
-  public void error(String command) {
-    out.printf("I don't know what the command \"%s\" is.", command);
-    out.println();
-  }
-
 }
