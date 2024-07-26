@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.io.PrintWriter;
+import tw.teddysoft.tasks.io.TodoListApp;
 
 import static java.lang.System.lineSeparator;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -29,8 +30,8 @@ public final class ApplicationTest {
     public ApplicationTest() throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(new PipedInputStream(inStream)));
         PrintWriter out = new PrintWriter(new PipedOutputStream(outStream), true);
-        TaskList taskList = new TaskList(in, out);
-        applicationThread = new Thread(taskList);
+        TodoListApp todoListApp = new TodoListApp(in, out);
+        applicationThread = new Thread(todoListApp);
     }
 
     @BeforeEach

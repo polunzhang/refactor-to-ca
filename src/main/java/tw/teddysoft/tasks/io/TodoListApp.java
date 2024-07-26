@@ -1,4 +1,4 @@
-package tw.teddysoft.tasks;
+package tw.teddysoft.tasks.io;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,7 +25,7 @@ import tw.teddysoft.tasks.usecase.service.HelpService;
 import tw.teddysoft.tasks.usecase.service.SetDoneService;
 import tw.teddysoft.tasks.usecase.service.ShowService;
 
-public final class TaskList implements Runnable {
+public final class TodoListApp implements Runnable {
     private static final String QUIT = "quit";
 
     private final BufferedReader in;
@@ -44,10 +44,10 @@ public final class TaskList implements Runnable {
     public static void main(String[] args) throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         PrintWriter out = new PrintWriter(System.out);
-        new TaskList(in, out).run();
+        new TodoListApp(in, out).run();
     }
 
-    public TaskList(BufferedReader reader, PrintWriter writer) {
+    public TodoListApp(BufferedReader reader, PrintWriter writer) {
         this.in = reader;
         this.out = writer;
         toDoListRepository = new ToDoListInMemoryRepository();

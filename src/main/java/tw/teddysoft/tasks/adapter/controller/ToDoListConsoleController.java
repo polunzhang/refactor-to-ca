@@ -2,8 +2,7 @@ package tw.teddysoft.tasks.adapter.controller;
 
 import java.io.PrintWriter;
 import tw.teddysoft.ezddd.cqrs.usecase.CqrsOutput;
-import tw.teddysoft.tasks.TaskList;
-import tw.teddysoft.tasks.entity.TodoList;
+import tw.teddysoft.tasks.io.TodoListApp;
 import tw.teddysoft.tasks.usecase.port.in.project.add.AddProjectInput;
 import tw.teddysoft.tasks.usecase.port.in.project.add.AddProjectUseCase;
 import tw.teddysoft.tasks.usecase.port.in.task.add.AddTaskInput;
@@ -18,7 +17,6 @@ import tw.teddysoft.tasks.usecase.port.in.todoList.show.ShowInput;
 import tw.teddysoft.tasks.usecase.port.in.todoList.show.ShowOutput;
 import tw.teddysoft.tasks.usecase.port.in.todoList.show.ShowUseCase;
 import tw.teddysoft.tasks.usecase.port.out.ShowPresenter;
-import tw.teddysoft.tasks.usecase.port.out.ToDoListRepository;
 
 public class ToDoListConsoleController {
 
@@ -51,7 +49,7 @@ public class ToDoListConsoleController {
     switch (command) {
       case "show":
         ShowInput showInput = new ShowInput();
-        showInput.toDoListId = TaskList.DEFAULT_TO_DO_LIST_ID;
+        showInput.toDoListId = TodoListApp.DEFAULT_TO_DO_LIST_ID;
         ShowOutput output = showUseCase.execute(showInput);
         showPresenter.present(output.todoListDto);
         break;
@@ -83,14 +81,14 @@ public class ToDoListConsoleController {
     if (subcommand.equals("project")) {
 
       AddProjectInput addProjectInput = new AddProjectInput();
-      addProjectInput.toDoListId = TaskList.DEFAULT_TO_DO_LIST_ID;
+      addProjectInput.toDoListId = TodoListApp.DEFAULT_TO_DO_LIST_ID;
       addProjectInput.projectName = subcommandRest[1];
       addProjectUseCase.execute(addProjectInput);
 
     } else if (subcommand.equals("task")) {
       String[] projectTask = subcommandRest[1].split(" ", 2);
       AddTaskInput addTaskInput = new AddTaskInput();
-      addTaskInput.toDoListId = TaskList.DEFAULT_TO_DO_LIST_ID;
+      addTaskInput.toDoListId = TodoListApp.DEFAULT_TO_DO_LIST_ID;
       addTaskInput.projectName = projectTask[0];
       addTaskInput.description = projectTask[1];
       addTaskInput.done = false;
@@ -103,7 +101,7 @@ public class ToDoListConsoleController {
     SetDownInput input = new SetDownInput();
     input.isDone = done;
     input.taskId = idString;
-    input.todoListId = TaskList.DEFAULT_TO_DO_LIST_ID;
+    input.todoListId = TodoListApp.DEFAULT_TO_DO_LIST_ID;
     CqrsOutput execute = setDoneUseCase.execute(input);
     out.printf(execute.getMessage());
   }
