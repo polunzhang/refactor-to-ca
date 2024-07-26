@@ -1,4 +1,4 @@
-package tw.teddysoft.tasks.usecase.in.task.set_down;
+package tw.teddysoft.tasks.usecase.port.in.task.set_down;
 
 import tw.teddysoft.ezddd.core.usecase.Input;
 import tw.teddysoft.tasks.entity.TaskId;

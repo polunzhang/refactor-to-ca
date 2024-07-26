@@ -8,7 +8,7 @@ import tw.teddysoft.tasks.adapter.repository.ToDoListInMemoryRepository;
 import tw.teddysoft.tasks.entity.TodoList;
 import tw.teddysoft.tasks.entity.TodoListId;
 import tw.teddysoft.tasks.usecase.Execute;
-import tw.teddysoft.tasks.usecase.out.ToDoListRepository;
+import tw.teddysoft.tasks.usecase.port.out.ToDoListRepository;
 
 public final class TaskList implements Runnable {
     private static final String QUIT = "quit";

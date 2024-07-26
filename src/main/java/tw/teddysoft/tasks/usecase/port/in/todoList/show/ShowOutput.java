@@ -1,4 +1,4 @@
-package tw.teddysoft.tasks.usecase.in.todoList.show;
+package tw.teddysoft.tasks.usecase.port.in.todoList.show;
 
 import tw.teddysoft.ezddd.cqrs.usecase.CqrsOutput;
 import tw.teddysoft.tasks.usecase.TodoListDto;

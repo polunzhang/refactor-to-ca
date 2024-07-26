@@ -1,11 +1,10 @@
 package tw.teddysoft.tasks.adapter.presenter;
 
 import java.io.PrintWriter;
-import tw.teddysoft.tasks.entity.Task;
 import tw.teddysoft.tasks.usecase.ProjectDto;
 import tw.teddysoft.tasks.usecase.TaskDto;
 import tw.teddysoft.tasks.usecase.TodoListDto;
-import tw.teddysoft.tasks.usecase.out.ShowPresenter;
+import tw.teddysoft.tasks.usecase.port.out.ShowPresenter;
 
 public class ShowConsolePresenter implements ShowPresenter {
 

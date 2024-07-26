@@ -5,17 +5,21 @@ import tw.teddysoft.ezddd.cqrs.usecase.CqrsOutput;
 import tw.teddysoft.tasks.TaskList;
 import tw.teddysoft.tasks.adapter.presenter.ShowConsolePresenter;
 import tw.teddysoft.tasks.entity.TodoList;
-import tw.teddysoft.tasks.usecase.in.project.add.AddProjectInput;
-import tw.teddysoft.tasks.usecase.in.project.add.AddProjectUseCase;
-import tw.teddysoft.tasks.usecase.in.task.add.AddTaskInput;
-import tw.teddysoft.tasks.usecase.in.task.add.AddTaskUseCase;
-import tw.teddysoft.tasks.usecase.in.task.set_down.SetDownInput;
-import tw.teddysoft.tasks.usecase.in.task.set_down.SetDownUseCase;
-import tw.teddysoft.tasks.usecase.in.todoList.show.ShowInput;
-import tw.teddysoft.tasks.usecase.in.todoList.show.ShowOutput;
-import tw.teddysoft.tasks.usecase.in.todoList.show.ShowUseCase;
-import tw.teddysoft.tasks.usecase.out.ShowPresenter;
-import tw.teddysoft.tasks.usecase.out.ToDoListRepository;
+import tw.teddysoft.tasks.usecase.port.in.project.add.AddProjectInput;
+import tw.teddysoft.tasks.usecase.port.in.project.add.AddProjectUseCase;
+import tw.teddysoft.tasks.usecase.port.in.task.add.AddTaskInput;
+import tw.teddysoft.tasks.usecase.port.in.task.add.AddTaskUseCase;
+import tw.teddysoft.tasks.usecase.port.in.task.set_down.SetDownInput;
+import tw.teddysoft.tasks.usecase.port.in.task.set_down.SetDownUseCase;
+import tw.teddysoft.tasks.usecase.port.in.todoList.show.ShowInput;
+import tw.teddysoft.tasks.usecase.port.in.todoList.show.ShowOutput;
+import tw.teddysoft.tasks.usecase.port.in.todoList.show.ShowUseCase;
+import tw.teddysoft.tasks.usecase.port.out.ShowPresenter;
+import tw.teddysoft.tasks.usecase.port.out.ToDoListRepository;
+import tw.teddysoft.tasks.usecase.service.AddProjectService;
+import tw.teddysoft.tasks.usecase.service.AddTaskService;
+import tw.teddysoft.tasks.usecase.service.SetDoneService;
+import tw.teddysoft.tasks.usecase.service.ShowService;
 
 public class Execute {
 

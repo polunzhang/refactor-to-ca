@@ -1,15 +1,13 @@
-package tw.teddysoft.tasks.usecase;
+package tw.teddysoft.tasks.usecase.service;
 
-import java.io.PrintWriter;
 import tw.teddysoft.ezddd.core.usecase.UseCaseFailureException;
-import tw.teddysoft.tasks.entity.Project;
-import tw.teddysoft.tasks.entity.Task;
 import tw.teddysoft.tasks.entity.TodoList;
 import tw.teddysoft.tasks.entity.TodoListId;
-import tw.teddysoft.tasks.usecase.in.todoList.show.ShowInput;
-import tw.teddysoft.tasks.usecase.in.todoList.show.ShowOutput;
-import tw.teddysoft.tasks.usecase.in.todoList.show.ShowUseCase;
-import tw.teddysoft.tasks.usecase.out.ToDoListRepository;
+import tw.teddysoft.tasks.usecase.TodoListMapper;
+import tw.teddysoft.tasks.usecase.port.in.todoList.show.ShowInput;
+import tw.teddysoft.tasks.usecase.port.in.todoList.show.ShowOutput;
+import tw.teddysoft.tasks.usecase.port.in.todoList.show.ShowUseCase;
+import tw.teddysoft.tasks.usecase.port.out.ToDoListRepository;
 
 public class ShowService implements ShowUseCase {
 

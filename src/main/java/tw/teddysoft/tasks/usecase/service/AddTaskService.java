@@ -1,19 +1,14 @@
-package tw.teddysoft.tasks.usecase;
+package tw.teddysoft.tasks.usecase.service;
 
 import java.io.PrintWriter;
-import java.util.List;
 import tw.teddysoft.ezddd.core.usecase.UseCaseFailureException;
 import tw.teddysoft.ezddd.cqrs.usecase.CqrsOutput;
-import tw.teddysoft.tasks.TaskList;
 import tw.teddysoft.tasks.entity.ProjectName;
-import tw.teddysoft.tasks.entity.Task;
 import tw.teddysoft.tasks.entity.TodoList;
 import tw.teddysoft.tasks.entity.TodoListId;
-import tw.teddysoft.tasks.usecase.in.project.add.AddProjectInput;
-import tw.teddysoft.tasks.usecase.in.project.add.AddProjectUseCase;
-import tw.teddysoft.tasks.usecase.in.task.add.AddTaskInput;
-import tw.teddysoft.tasks.usecase.in.task.add.AddTaskUseCase;
-import tw.teddysoft.tasks.usecase.out.ToDoListRepository;
+import tw.teddysoft.tasks.usecase.port.in.task.add.AddTaskInput;
+import tw.teddysoft.tasks.usecase.port.in.task.add.AddTaskUseCase;
+import tw.teddysoft.tasks.usecase.port.out.ToDoListRepository;
 
 public class AddTaskService implements AddTaskUseCase {
 

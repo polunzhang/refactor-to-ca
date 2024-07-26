@@ -1,4 +1,4 @@
-package tw.teddysoft.tasks.usecase.in.task.add;
+package tw.teddysoft.tasks.usecase.port.in.task.add;
 
 import tw.teddysoft.ezddd.core.usecase.Input;
 
