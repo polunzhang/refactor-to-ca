@@ -1,10 +1,8 @@
-package tw.teddysoft.tasks.usecase;
+package tw.teddysoft.tasks.adapter.controller;
 
 import java.io.PrintWriter;
 import tw.teddysoft.ezddd.cqrs.usecase.CqrsOutput;
 import tw.teddysoft.tasks.TaskList;
-import tw.teddysoft.tasks.adapter.presenter.HelpConsolePresenter;
-import tw.teddysoft.tasks.adapter.presenter.ShowConsolePresenter;
 import tw.teddysoft.tasks.entity.TodoList;
 import tw.teddysoft.tasks.usecase.port.in.project.add.AddProjectInput;
 import tw.teddysoft.tasks.usecase.port.in.project.add.AddProjectUseCase;
@@ -21,24 +19,31 @@ import tw.teddysoft.tasks.usecase.port.in.todoList.show.ShowOutput;
 import tw.teddysoft.tasks.usecase.port.in.todoList.show.ShowUseCase;
 import tw.teddysoft.tasks.usecase.port.out.ShowPresenter;
 import tw.teddysoft.tasks.usecase.port.out.ToDoListRepository;
-import tw.teddysoft.tasks.usecase.service.AddProjectService;
-import tw.teddysoft.tasks.usecase.service.AddTaskService;
-import tw.teddysoft.tasks.usecase.service.ErrorService;
-import tw.teddysoft.tasks.usecase.service.HelpService;
-import tw.teddysoft.tasks.usecase.service.SetDoneService;
-import tw.teddysoft.tasks.usecase.service.ShowService;
 
-public class Execute {
+public class ToDoListConsoleController {
 
-  private final TodoList todoList;
   private final PrintWriter out;
 
-  private final ToDoListRepository repository;
+  private final ShowUseCase showUseCase;
+  private final ShowPresenter showPresenter;
+  private final AddProjectUseCase addProjectUseCase;
+  private final AddTaskUseCase addTaskUseCase;
+  private final SetDownUseCase setDoneUseCase;
+  private final HelpUseCase helpUseCase;
+  private final ErrorUseCase errorUseCase;
 
-  public Execute(TodoList todoList, PrintWriter out, ToDoListRepository repository) {
-    this.todoList = todoList;
+  public ToDoListConsoleController(PrintWriter out, ShowUseCase showUseCase,
+      ShowPresenter showPresenter, AddProjectUseCase addProjectUseCase,
+      AddTaskUseCase addTaskUseCase, SetDownUseCase setDoneUseCase, HelpUseCase helpUseCase,
+      ErrorUseCase errorUseCase) {
     this.out = out;
-    this.repository = repository;
+    this.showUseCase = showUseCase;
+    this.showPresenter = showPresenter;
+    this.addProjectUseCase = addProjectUseCase;
+    this.addTaskUseCase = addTaskUseCase;
+    this.setDoneUseCase = setDoneUseCase;
+    this.helpUseCase = helpUseCase;
+    this.errorUseCase = errorUseCase;
   }
 
   public void execute(String commandLine) {
@@ -46,12 +51,10 @@ public class Execute {
     String command = commandRest[0];
     switch (command) {
       case "show":
-        ShowUseCase showUseCase = new ShowService(repository);
         ShowInput showInput = new ShowInput();
         showInput.toDoListId = TaskList.DEFAULT_TO_DO_LIST_ID;
         ShowOutput output = showUseCase.execute(showInput);
-        ShowPresenter presenter = new ShowConsolePresenter(out);
-        presenter.present(output.todoListDto);
+        showPresenter.present(output.todoListDto);
         break;
       case "add":
         add(commandRest[1]);
@@ -63,14 +66,12 @@ public class Execute {
         setDone(commandRest[1], false);
         break;
       case "help":
-        HelpUseCase helpUseCase = new HelpService(new HelpConsolePresenter(out));
         HelpInput input = new HelpInput();
         helpUseCase.execute(input);
         break;
       default:
         ErrorInput errorInput = new ErrorInput();
         errorInput.command = command;
-        ErrorUseCase errorUseCase = new ErrorService();
         errorUseCase.execute(errorInput);
         out.print(errorUseCase.execute(errorInput).getMessage());
         break;
@@ -82,7 +83,6 @@ public class Execute {
     String subcommand = subcommandRest[0];
     if (subcommand.equals("project")) {
 
-      AddProjectUseCase addProjectUseCase = new AddProjectService(repository);
       AddProjectInput addProjectInput = new AddProjectInput();
       addProjectInput.toDoListId = TaskList.DEFAULT_TO_DO_LIST_ID;
       addProjectInput.projectName = subcommandRest[1];
@@ -90,7 +90,6 @@ public class Execute {
 
     } else if (subcommand.equals("task")) {
       String[] projectTask = subcommandRest[1].split(" ", 2);
-      AddTaskUseCase addTaskUseCase = new AddTaskService(todoList, out, repository);
       AddTaskInput addTaskInput = new AddTaskInput();
       addTaskInput.toDoListId = TaskList.DEFAULT_TO_DO_LIST_ID;
       addTaskInput.projectName = projectTask[0];
@@ -106,8 +105,7 @@ public class Execute {
     input.isDone = done;
     input.taskId = idString;
     input.todoListId = TaskList.DEFAULT_TO_DO_LIST_ID;
-    SetDownUseCase setDownUseCase = new SetDoneService(todoList, out, repository);
-    CqrsOutput execute = setDownUseCase.execute(input);
+    CqrsOutput execute = setDoneUseCase.execute(input);
     out.printf(execute.getMessage());
   }
 
