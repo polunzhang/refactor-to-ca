@@ -12,6 +12,6 @@ public class RepositoryInjection {
 
   @Bean(name = "toDoListRepository")
   public ToDoListRepository toDoListRepository() {
-    return new ToDoListInMemoryRepository();
+    return new ToDoListInMemoryRepository(peer);
   }
 }

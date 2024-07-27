@@ -40,7 +40,7 @@ public final class TodoListApp implements Runnable {
     public static void main(String[] args) throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         PrintWriter out = new PrintWriter(System.out);
-        var toDoListRepository = new ToDoListInMemoryRepository();
+        var toDoListRepository = new ToDoListInMemoryRepository(peer);
         if (toDoListRepository.findById(TodoListId.of(DEFAULT_TO_DO_LIST_ID)).isEmpty()) {
             toDoListRepository.save(new TodoList(new TodoListId(DEFAULT_TO_DO_LIST_ID)));
         }

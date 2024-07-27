@@ -41,7 +41,7 @@ public final class ApplicationTest {
     public ApplicationTest() throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(new PipedInputStream(inStream)));
         PrintWriter out = new PrintWriter(new PipedOutputStream(outStream), true);
-        var toDoListRepository = new ToDoListInMemoryRepository();
+        var toDoListRepository = new ToDoListInMemoryRepository(peer);
         if (toDoListRepository.findById(TodoListId.of(TodoListApp.DEFAULT_TO_DO_LIST_ID)).isEmpty()) {
             toDoListRepository.save(new TodoList(new TodoListId(TodoListApp.DEFAULT_TO_DO_LIST_ID)));
         }
