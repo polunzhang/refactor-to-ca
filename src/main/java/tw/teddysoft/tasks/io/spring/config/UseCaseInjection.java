@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import tw.teddysoft.tasks.adapter.controller.web.HelpWebPresenter;
 import tw.teddysoft.tasks.adapter.presenter.HelpConsolePresenter;
 import tw.teddysoft.tasks.adapter.presenter.ShowConsolePresenter;
 import tw.teddysoft.tasks.usecase.port.in.project.add.AddProjectUseCase;
@@ -70,10 +71,11 @@ public class UseCaseInjection {
     return new ShowService(toDoListRepository);
   }
 
-  @Bean
-  public HelpUseCase helpUseCase() {
-    return new HelpService(new HelpConsolePresenter(getOut()));
-  }
+  @Bean(name = "consoleHelp")
+  public HelpUseCase consoleHelpUseCase() { return new HelpService(new HelpConsolePresenter(getOut())); }
+
+  @Bean(name = "webHelp")
+  public HelpUseCase webHelpUseCase() { return new HelpService(new HelpWebPresenter()); }
 
   @Bean
   public ShowPresenter showPresenter() {

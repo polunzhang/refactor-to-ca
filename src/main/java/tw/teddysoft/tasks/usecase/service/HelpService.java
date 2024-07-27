@@ -1,5 +1,6 @@
 package tw.teddysoft.tasks.usecase.service;
 
+import tw.teddysoft.ezddd.core.usecase.Input;
 import tw.teddysoft.ezddd.core.usecase.UseCaseFailureException;
 import tw.teddysoft.tasks.usecase.port.in.todoList.help.HelpDto;
 import tw.teddysoft.tasks.usecase.port.in.todoList.help.HelpInput;
@@ -15,7 +16,7 @@ public class HelpService implements HelpUseCase {
   }
 
   @Override
-  public HelpOutput execute(HelpInput input) throws UseCaseFailureException {
+  public HelpOutput execute(Input.NullInput input) throws UseCaseFailureException {
     HelpOutput helpOutput = new HelpOutput();
     HelpDto helpDto = new HelpDto();
 

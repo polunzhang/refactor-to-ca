@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -12,7 +13,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
-import tw.teddysoft.tasks.adapter.controller.ToDoListConsoleController;
+import tw.teddysoft.tasks.adapter.controller.console.ToDoListConsoleController;
 import tw.teddysoft.tasks.io.spring.config.UseCaseInjection;
 import tw.teddysoft.tasks.io.standard.TodoListApp;
 import tw.teddysoft.tasks.usecase.port.in.project.add.AddProjectUseCase;
@@ -54,7 +55,7 @@ public class ToDoListSpringBootApp extends SpringBootServletInitializer
       AddTaskUseCase addTaskUseCase,
       SetDownUseCase setDoneUseCase,
       ErrorUseCase errorUseCase,
-      HelpUseCase helpUseCase) {
+      @Qualifier("consoleHelp") HelpUseCase helpUseCase) {
     this.in = in;
     this.out = out;
     this.showUseCase = showUseCase;

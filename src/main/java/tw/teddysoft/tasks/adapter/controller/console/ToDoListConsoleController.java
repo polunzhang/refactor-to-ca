@@ -1,6 +1,7 @@
-package tw.teddysoft.tasks.adapter.controller;
+package tw.teddysoft.tasks.adapter.controller.console;
 
 import java.io.PrintWriter;
+import tw.teddysoft.ezddd.core.usecase.Input;
 import tw.teddysoft.ezddd.cqrs.usecase.CqrsOutput;
 import tw.teddysoft.tasks.io.standard.TodoListApp;
 import tw.teddysoft.tasks.usecase.port.in.project.add.AddProjectInput;
@@ -63,8 +64,7 @@ public class ToDoListConsoleController {
         setDone(commandRest[1], false);
         break;
       case "help":
-        HelpInput input = new HelpInput();
-        helpUseCase.execute(input);
+        helpUseCase.execute(new Input.NullInput());
         break;
       default:
         ErrorInput errorInput = new ErrorInput();
