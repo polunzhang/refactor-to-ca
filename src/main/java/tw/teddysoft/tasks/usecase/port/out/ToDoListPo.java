@@ -5,6 +5,12 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
@@ -15,8 +21,15 @@ import lombok.NoArgsConstructor;
 public class ToDoListPo {
   private String id;
 
+  @Column(name = "last_task_id")
   private Long lastId;
 
+  @OneToMany(
+      cascade = {CascadeType.ALL},
+      fetch = FetchType.EAGER,
+      orphanRemoval = true)
+  @JoinColumn(name = "id_fk")
+  @OrderBy("order")
   @Getter(AccessLevel.NONE)
   private Set<ProjectPo> projectPos;
 
