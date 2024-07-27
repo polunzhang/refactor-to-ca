@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import tw.teddysoft.tasks.adapter.presenter.HelpConsolePresenter;
 import tw.teddysoft.tasks.adapter.presenter.ShowConsolePresenter;
+import tw.teddysoft.tasks.adapter.repository.ToDoListInMemoryPeerRepository;
 import tw.teddysoft.tasks.adapter.repository.ToDoListInMemoryRepository;
 import tw.teddysoft.tasks.entity.TodoList;
 import tw.teddysoft.tasks.entity.TodoListId;
@@ -40,7 +41,7 @@ public final class TodoListApp implements Runnable {
     public static void main(String[] args) throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
         PrintWriter out = new PrintWriter(System.out);
-        var toDoListRepository = new ToDoListInMemoryRepository(peer);
+    var toDoListRepository = new ToDoListInMemoryRepository(new ToDoListInMemoryPeerRepository());
         if (toDoListRepository.findById(TodoListId.of(DEFAULT_TO_DO_LIST_ID)).isEmpty()) {
             toDoListRepository.save(new TodoList(new TodoListId(DEFAULT_TO_DO_LIST_ID)));
         }
