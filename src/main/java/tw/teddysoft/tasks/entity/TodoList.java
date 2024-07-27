@@ -4,19 +4,31 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
 import tw.teddysoft.ezddd.core.entity.AggregateRoot;
 import tw.teddysoft.ezddd.core.entity.DomainEvent;
 
+@AllArgsConstructor
 public class TodoList extends AggregateRoot<TodoListId, DomainEvent> {
 
   private final TodoListId id;
   private final List<Project> projects;
 
-  private long lastId = 0;
+  private long lastId;
 
   public TodoList(TodoListId id) {
+    this(id, 0);
+  }
+
+  public TodoList(TodoListId id, long lastTaskId) {
     this.id = id;
+    this.lastId = lastTaskId;
     this.projects = new ArrayList<>();
+  }
+
+  public TodoList(TodoListId id, long lastTaskId, List<Project> projects) {
+    this(id, lastTaskId);
+    this.projects.addAll(projects);
   }
 
   public List<Project> getProjects() {
@@ -43,18 +55,26 @@ public class TodoList extends AggregateRoot<TodoListId, DomainEvent> {
   }
 
   public List<Task> getTasks(ProjectName name) {
-    return projects.stream().filter(e -> e.getName().equals(name)).findFirst()
+    return projects.stream()
+        .filter(e -> e.getName().equals(name))
+        .findFirst()
         .map(e -> e.getTasks().stream().map(real -> (Task) new ReadOnlyTask(real)).toList())
         .orElse(null);
   }
 
-  public boolean containsTask(TaskId taskId){
+  public boolean containsTask(TaskId taskId) {
     return this.projects.stream().anyMatch(e -> e.containsTask(taskId));
   }
 
   public void setDone(TaskId taskId, boolean done) {
-    this.projects.stream().filter(e -> e.containsTask(taskId)).findFirst()
+    this.projects.stream()
+        .filter(e -> e.containsTask(taskId))
+        .findFirst()
         .ifPresent(e -> e.setTaskDone(taskId, done));
+  }
+
+  public long getTaskLastId() {
+    return lastId;
   }
 
   @Override
