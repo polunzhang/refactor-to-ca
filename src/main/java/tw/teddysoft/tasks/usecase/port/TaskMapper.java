@@ -1,7 +1,8 @@
-package tw.teddysoft.tasks.usecase;
+package tw.teddysoft.tasks.usecase.port;
 
 import java.util.List;
 import tw.teddysoft.tasks.entity.Task;
+import tw.teddysoft.tasks.usecase.TaskDto;
 
 public class TaskMapper {
 

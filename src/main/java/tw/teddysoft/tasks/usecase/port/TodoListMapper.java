@@ -1,6 +1,7 @@
-package tw.teddysoft.tasks.usecase;
+package tw.teddysoft.tasks.usecase.port;
 
 import tw.teddysoft.tasks.entity.TodoList;
+import tw.teddysoft.tasks.usecase.TodoListDto;
 
 public class TodoListMapper {
 

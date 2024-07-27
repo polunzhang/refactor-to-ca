@@ -3,7 +3,7 @@ package tw.teddysoft.tasks.usecase.service;
 import tw.teddysoft.ezddd.core.usecase.UseCaseFailureException;
 import tw.teddysoft.tasks.entity.TodoList;
 import tw.teddysoft.tasks.entity.TodoListId;
-import tw.teddysoft.tasks.usecase.TodoListMapper;
+import tw.teddysoft.tasks.usecase.port.TodoListMapper;
 import tw.teddysoft.tasks.usecase.port.in.todoList.show.ShowInput;
 import tw.teddysoft.tasks.usecase.port.in.todoList.show.ShowOutput;
 import tw.teddysoft.tasks.usecase.port.in.todoList.show.ShowUseCase;
