@@ -52,8 +52,8 @@
                 <configuration>
                     <programs>
                         <program>
-                            <id>task-list</id>
-                            <mainClass>com.codurance.training.tasks.todolist.io.TaskApplication</mainClass>
+                            <id>ToDoListApp</id>
+                            <mainClass>tw.teddysoft.tasks.io.standard.ToDoListApp</mainClass>
                         </program>
                     </programs>
                 </configuration>
