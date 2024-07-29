@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
@@ -16,9 +18,12 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Entity
 @Data
 @NoArgsConstructor
 public class ToDoListPo {
+  @Id
+  @Column(name = "id")
   private String id;
 
   @Column(name = "last_task_id")

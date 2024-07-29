@@ -17,8 +17,8 @@ public class TodoListMapper {
   public static TodoList toDomain(ToDoListPo toDoListPo) {
     return new TodoList(
         TodoListId.of(toDoListPo.getId()),
-        ProjectMapper.toDomain(toDoListPo.getProjectPos()),
-        toDoListPo.getLastId());
+        toDoListPo.getLastId(),
+        ProjectMapper.toDomain(toDoListPo.getProjectPos()));
   }
 
   public static ToDoListPo toPo(TodoList toDoList) {

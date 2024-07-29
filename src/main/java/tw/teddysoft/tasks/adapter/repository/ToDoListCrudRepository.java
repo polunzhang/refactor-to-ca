@@ -7,10 +7,11 @@ import tw.teddysoft.tasks.entity.TodoListId;
 import tw.teddysoft.tasks.usecase.port.TodoListMapper;
 import tw.teddysoft.tasks.usecase.port.out.ToDoListRepository;
 
-public class ToDoListInMemoryRepository implements ToDoListRepository {
-  private final ToDoListInMemoryPeerRepository peer;
+public class ToDoListCrudRepository implements ToDoListRepository {
 
-  public ToDoListInMemoryRepository(ToDoListInMemoryPeerRepository peer) {
+  private ToDoListCrudRepositoryPeer peer;
+
+  public ToDoListCrudRepository(ToDoListCrudRepositoryPeer peer) {
     this.peer = peer;
   }
 

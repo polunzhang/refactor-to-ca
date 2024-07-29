@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import tw.teddysoft.ezddd.core.entity.AggregateRoot;
 import tw.teddysoft.ezddd.core.entity.DomainEvent;
 
-@AllArgsConstructor
 public class TodoList extends AggregateRoot<TodoListId, DomainEvent> {
 
   private final TodoListId id;
